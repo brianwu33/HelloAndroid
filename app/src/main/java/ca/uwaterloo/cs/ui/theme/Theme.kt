@@ -11,27 +11,27 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun HelloAndroidTheme(content: @Composable () -> Unit) {
-  val darkColors = darkColors(
-    background = Color.VeryDarkGray,
-    surface = Color.VeryDarkGray,
-    primary = Color.VeryDarkGray,
-  )
-  val lightColors = lightColors(
-    primary = Color.White,
-    onPrimary = Color.DarkGray,
-    surface = Color.DarkGray,
-  )
-  MaterialTheme(
-    colors = if (isSystemInDarkTheme()) darkColors else lightColors,
-    content = {
-      val defaultTextStyle = LocalTextStyle.current.copy(
-        color = MaterialTheme.colors.onBackground
-      )
-      CompositionLocalProvider(LocalTextStyle provides defaultTextStyle) {
-        content()
-      }
-    }
-  )
+    val darkColors = darkColors(
+        background = Color.VeryDarkGray,
+        surface = Color.VeryDarkGray,
+        primary = Color.VeryDarkGray,
+    )
+    val lightColors = lightColors(
+        primary = Color.White,
+        onPrimary = Color.DarkGray,
+        surface = Color.DarkGray,
+    )
+    MaterialTheme(
+        colors = if (isSystemInDarkTheme()) darkColors else lightColors,
+        content = {
+            val defaultTextStyle = LocalTextStyle.current.copy(
+                color = MaterialTheme.colors.onBackground
+            )
+            CompositionLocalProvider(LocalTextStyle provides defaultTextStyle) {
+                content()
+            }
+        }
+    )
 }
 
 val Color.Companion.VeryDarkGray get() = Color(0xFF121212)

@@ -8,20 +8,20 @@ import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 
 class HomePresenter {
-  fun fetchDogImages(): List<String> {
-    val request = okhttp3.Request(
-      url = "https://dog.ceo/api/breeds/image/random/10".toHttpUrl()
-    )
-    val response = OkHttpClient().newCall(request).execute()
+    fun fetchDogImages(): List<String> {
+        val request = okhttp3.Request(
+            url = "https://dog.ceo/api/breeds/image/random/10".toHttpUrl()
+        )
+        val response = OkHttpClient().newCall(request).execute()
 
-    val json = response.body.string()
-    val responseBody = Json.decodeFromString<DogCeoResponseBody>(json)
-    return responseBody.message
-  }
+        val json = response.body.string()
+        val responseBody = Json.decodeFromString<DogCeoResponseBody>(json)
+        return responseBody.message
+    }
 }
 
 @Serializable
 data class DogCeoResponseBody(
-  val message: List<String>,
-  val status: String,
+    val message: List<String>,
+    val status: String,
 )
