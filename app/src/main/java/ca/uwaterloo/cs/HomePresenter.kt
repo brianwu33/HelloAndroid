@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 
 class HomePresenter {
     fun fetchDogImages(): List<String> {
+        // Send Request through okhttp3
         val request = okhttp3.Request(
             url = "https://dog.ceo/api/breeds/image/random/10".toHttpUrl()
         )
@@ -20,6 +21,7 @@ class HomePresenter {
     }
 }
 
+// The @Serializable annotation in Kotlin signifies that a class can be serialized and deserialized
 @Serializable
 data class DogCeoResponseBody(
     val message: List<String>,

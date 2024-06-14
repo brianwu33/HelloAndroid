@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ca.uwaterloo.cs.ui.theme.HelloAndroidTheme
@@ -50,30 +52,30 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainContent() {
     Box(
-      Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colors.background),
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
     ) {
-        val clickedDogImage = remember { mutableStateOf<String?>(null) }
+        val clickedDogImage = remember { mutableStateOf<String?>(null) }    //Initialize State
 
         Column {
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = "Instagram",
-                fontSize = 20.sp,
+                fontSize = 20.sp,   //Scaled Pixels
                 fontWeight = FontWeight.Medium
             )
             Row(
-              Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 16.dp)      //Density Independent Pixels
             ) {
                 val dogImages = remember { mutableStateOf(emptyList<String>()) }
 
-                LaunchedEffect(Unit) {
+                LaunchedEffect(Unit) {      // Only run this once when you screen launch
                     val presenter = HomePresenter()
                     thread {
-                        dogImages.value = presenter.fetchDogImages()
+                        dogImages.value = presenter.fetchDogImages()        // Bad Practises, use Coroutines
                     }
                 }
 
@@ -103,35 +105,36 @@ fun MainContent() {
 fun FullScreenStory(imageUrl: String, onClick: () -> Unit) {
     AsyncImage(
         modifier = Modifier
-          .fillMaxSize()
-          .clickable { onClick() },
+            .fillMaxSize()
+            .clickable { onClick() },
         model = imageUrl,
         contentDescription = null,
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.Crop,       // Scale the image inside the circle properly
     )
+
 }
 
 @Composable
 fun StoryAvatar(imageUrl: String, onClick: () -> Unit) {
     Box(
-      Modifier
-        .padding(end = 8.dp)
-        .border(
-          width = 2.dp,
-          brush = Brush.verticalGradient(
-            listOf(
-              Color.InstagramOrange,
-              Color.InstagramPeach,
-              Color.InstagramPurple
+        Modifier
+            .padding(end = 8.dp)        //padding on the right
+            .border(
+                width = 2.dp,
+                brush = Brush.verticalGradient(
+                    listOf(
+                        Color.InstagramOrange,
+                        Color.InstagramPeach,
+                        Color.InstagramPurple
+                    )
+                ),
+                shape = CircleShape
             )
-          ),
-          shape = CircleShape
-        )
-        .padding(6.dp)
-        .size(60.dp)
-        .clip(CircleShape)
-        .background(Color.LightGray)
-        .clickable { onClick() }
+            .padding(6.dp)
+            .size(60.dp)
+            .clip(CircleShape)
+            .background(Color.LightGray)
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = imageUrl,
@@ -139,4 +142,16 @@ fun StoryAvatar(imageUrl: String, onClick: () -> Unit) {
             contentScale = ContentScale.Crop,
         )
     }
+}
+
+
+
+@Preview
+@Composable
+fun PreviewStoryAvatar() {
+//    StoryAvatar(
+//        imageUrl = "dogImage",
+//        onClick = {
+//        }
+//    )
 }
